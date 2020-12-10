@@ -3,8 +3,8 @@ services:
   app:
     build:
       context: .
-    expose:
-      - 8000
+    ports:
+      - 8000:8000
     volumes:
       - ./app:/app
     command: >
@@ -13,12 +13,12 @@ services:
               python manage.py runserver 0.0.0.0:8000"
     env_file:
       - .env.sample
-  nginx:
-    build: ./nginx
-    ports:
-      - 3000:80
-    depends_on:
-      - app
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #     - 3000:80
+  #   depends_on:
+  #     - app
 
 #  db-django:
 #    image: postgres:alpine
