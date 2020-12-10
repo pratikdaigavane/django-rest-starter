@@ -1,4 +1,11 @@
 version: "3"
+x-logging:
+  &default-logging
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
+
 services:
   app:
     build:
@@ -13,16 +20,22 @@ services:
               python manage.py runserver 0.0.0.0:8000"
     env_file:
       - .env.sample
-  # nginx:
-  #   build: ./nginx
-  #   ports:
-  #     - 3000:80
-  #   depends_on:
-  #     - app
+    <<: *default-logging
 
-#  db-django:
-#    image: postgres:alpine
-#    environment:
-#      - POSTGRES_DB=app
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    <<: *default-logging
+
+  redis:
+    image: redis:alpine
+    command: [
+        "sh", "-c",
+        'docker-entrypoint.sh --appendonly yes --requirepass "$$REDIS_PASSWORD"'
+    ]
+    env_file: .env.sample
+    <<: *default-logging
+    restart: always
