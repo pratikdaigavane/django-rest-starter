@@ -29,6 +29,7 @@ To run test cases:
 ```sh
 docker-compose run app sh -c "python manage.py test && flake8"
 ```
+## Starting the Server
 
 Start PostgreSQL and Redis first:
 ```sh
