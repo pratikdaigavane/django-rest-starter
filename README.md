@@ -1,6 +1,17 @@
-# django-rest-starter
+# Django REST Starter
 
 A starter template for building REST APIs in Django
+
+## Features
+
+ - User Management APIs
+ - API Documentation using swagger
+ - Integration with Django Rest Framework
+ - JWT Authentication
+ - Django Debug Toolbar
+ - PostgreSQL and Redis integrated out of the box.
+ - Containerized using Docker and managed using Docker Compose 
+
 
 ## Prerequisites
 
@@ -19,14 +30,31 @@ To run test cases:
 docker-compose run app sh -c "python manage.py test && flake8"
 ```
 
-## Starting the Server
-
+Start PostgreSQL and Redis first:
 ```sh
+docker-compose up -d db redis
+```
+Then start whole project:
+```
 docker-compose up
 ```
 
-Now the backend will be hosted at 127.0.0.1:8000
+## Execute Commands
+
+To execute any commands inside django docker container, follow this format:
+
+```
+docker-compose run app sh -c "command here"
+```
+
+### Examples
+
+* Create Super User: 
+
+    `docker-compose run app sh -c "python manage.py create superuser"`
+* Add New App: 
+
+    `docker-compose run app sh -c "python manage.py startapp polls"`
 
 ## API Documentation
-
 API documentation is done using swagger visit /swagger for API documentation
