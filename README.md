@@ -12,6 +12,7 @@ A starter template for building REST APIs in Django
  - Django Debug Toolbar
  - PostgreSQL and Redis integrated out of the box.
  - Containerized using Docker and managed using Docker Compose 
+ - Pipeline to Test and Build docker image
 
 
 ## Prerequisites
