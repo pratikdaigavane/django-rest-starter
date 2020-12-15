@@ -1,4 +1,5 @@
 # Django REST Starter
+[![Django Lint and Build](/workflows/Django%20Test%20and%20Build/badge.svg)](/actions)
 
 A starter template for building REST APIs in Django
 
