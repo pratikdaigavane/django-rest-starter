@@ -1,0 +1,32 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Django Test and Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start Postgres
+        run: docker-compose up -d db
+      - name: Test and Lint
+        run: docker-compose run --rm app sh -c "python manage.py test && flake8"
+
+  build-and-publish-latest:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Running this job only for main branch
+    steps:
+      - uses: actions/checkout@v2 # Checking out the repo
+      - name: Build and Publish latest Docker image
+        uses: VaultVulp/gp-docker-action@1.1.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+          image-name: django-rest-starter # Provide only Docker image name, tag will be automatically set to latest
+          dockerfile: Dockerfile
